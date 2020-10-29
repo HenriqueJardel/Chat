@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
@@ -33,8 +34,9 @@ public class AreaTela extends JTextPane {
     
     private StyledDocument doc;
     private BufferedImage image;
+    private BufferedImage j;
+    private InputStream temp;
     private ImageIcon icon [];
-    private Image emoji;
     private Map <String, ImageIcon> emojis = new HashMap <String , ImageIcon>();
     
     public AreaTela() throws IOException {
@@ -47,13 +49,16 @@ public class AreaTela extends JTextPane {
         // Faz com que não seja possível editar o texto
         this.setEditable(false);
         // Carrega a imagem de fundo
-         this.image = ImageIO.read(new File("C:\\Users\\Henrique\\Documents\\NetBeansProjects\\Chat\\src\\Imagem\\Image4.png"));
+         this.image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagem/Image4.png"));
          this.icon = new ImageIcon [12];
         // Carrega os emojis
-         for (int i = 1; i <= 12;i++)
+         for (int i = 0; i < 12;i++)
         {
-            this.icon[i-1] = new ImageIcon("C:\\Users\\Henrique\\Documents\\NetBeansProjects\\Chat\\src\\Imagem\\Emojis\\emj" + i + ".png");
+            this.temp = getClass().getClassLoader().getResourceAsStream("Imagem/Emojis/emj" + i + ".png");
+            this.j = ImageIO.read(temp);
+            this.icon[i] = new ImageIcon(j.getScaledInstance(j.getWidth(), j.getHeight(),10000));
         }
+        
         // Cria um HashMap de emojis
         this.emojis.put(":)", this.icon[0]);
         this.emojis.put(":D", this.icon[1]);

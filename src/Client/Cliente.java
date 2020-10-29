@@ -40,6 +40,7 @@ public class Cliente extends JFrame implements KeyListener, WindowListener {
 		
 		private Socket socket;
 		private AreaTela AreaTela;
+                private Som som;
 		private JTextField AreaEscrita = new JTextField();
                 
                 private JMenuBar menu = new JMenuBar();
@@ -208,6 +209,8 @@ public class Cliente extends JFrame implements KeyListener, WindowListener {
                         this.addWindowListener(this);
                         
                         this.pack();
+                        
+                        this.som = new Som();
 			
                         // Inicia a conexão com o server
 			init();
@@ -268,6 +271,7 @@ public class Cliente extends JFrame implements KeyListener, WindowListener {
 	            	this.AreaTela.append(mensagem);
                         this.AreaTela.append("\n");
                         this.AreaTela.setCaretPosition(AreaTela.getDocument().getLength());
+                        this.som.Play(som.getPath());
                     }
 	           
 	        }
@@ -288,18 +292,19 @@ public class Cliente extends JFrame implements KeyListener, WindowListener {
                 Object [] conteiner = {"Nome",nome,"Ip Servidor",ip,"Porta",porta};
                 JOptionPane.showConfirmDialog(null,conteiner,"Inciando a conexão", JOptionPane.OK_CANCEL_OPTION,2);
                 
+                
                 if (nome.getText().length() < 1) {
-                    JOptionPane.showMessageDialog(null,"Nome invalido!");
+                    JOptionPane.showMessageDialog(null,"Conexão Finalizada ou Nome Invalido!");
                 }
                 
                 else if (porta.getText().length() < 1) {
                     JOptionPane.showMessageDialog(null,"Porta invalida!");
                 }
-                
-                else {
-                int p  = Integer.parseInt(porta.getText());
-                // Inicia o chat
-                new Cliente(nome.getText(),ip.getText(),p);
+                else 
+                {
+                    int p  = Integer.parseInt(porta.getText());
+                    // Inicia o chat
+                    new Cliente(nome.getText(),ip.getText(),p);
                 }
             }
 
